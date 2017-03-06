@@ -1,6 +1,4 @@
 # recaptchaCb
-reCaptcha for Contentbox 3.x
-
 Implements Google reCaptcha for Contentbox 3.x
 
 ## Installation
@@ -9,3 +7,7 @@ Implements Google reCaptcha for Contentbox 3.x
 - go to Contentbox admin, activate the module
 - enter your public and private key at module section
 - disable Security Captcha at admin>general options>Use Security Captcha Image
+
+## Todo
+- proper error handling
+-caching for settings
