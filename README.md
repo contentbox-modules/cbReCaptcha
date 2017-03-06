@@ -10,4 +10,4 @@ Implements Google reCaptcha for Contentbox 3.x
 
 ## Todo
 - proper error handling
--caching for settings
+- caching for settings
