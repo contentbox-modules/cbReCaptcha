@@ -1,6 +1,6 @@
 component {
 
-	property name="config" inject="coldbox:setting:recaptcha";
+	property name="config" inject="coldbox:setting:cbrecaptcha";
 	property name="settingService" 	inject="settingService@cb";
 
 	property name="privateKey" 	default="";

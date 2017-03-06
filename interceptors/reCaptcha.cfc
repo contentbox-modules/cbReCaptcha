@@ -1,7 +1,7 @@
 component extends="coldbox.system.Interceptor"{
 
 	// DI
-	property name="recaptchaService"	inject="id:recaptchaService@recaptcha";
+	property name="recaptchaService"	inject="id:recaptchaService@cbrecaptcha";
 
 	/**
 	* Configure interceptor
