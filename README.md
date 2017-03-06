@@ -1,4 +1,4 @@
-# recaptchaCb
+# cbReCaptcha
 Implements Google reCaptcha for Contentbox 3.x
 
 ## Installation
