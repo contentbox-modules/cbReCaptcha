@@ -7,7 +7,7 @@
 component hint="My Module Configuration"{
 
 	// Module Properties
-	this.title 				= "reCaptcha";
+	this.title 				= "cbReCaptcha";
 	this.author 			= "Aktigo Internet and Media Applications GmbH";
 	this.webURL 			= "http://www.akitogo.com";
 	this.description 		= "Implements Google reCaptcha for Contentbox 3.x";
@@ -17,7 +17,7 @@ component hint="My Module Configuration"{
 	// If true, looks for layouts in the parent first, if not found, then in module. Else vice-versa
 	this.layoutParentLookup = true;
 	// Module Entry Point
-	this.entryPoint			= "reCaptcha";
+	this.entryPoint			= "cbReCaptcha";
 
 	function configure(){
 
@@ -76,7 +76,7 @@ component hint="My Module Configuration"{
 		// Let's add ourselves to the main menu in the Modules section
 		var menuService = controller.getWireBox().getInstance( "AdminMenuService@cb" );
 		// Add Menu Contribution
-		menuService.addSubMenu(topMenu=menuService.MODULES,name="reCaptcha",label="reCaptcha",href="#menuService.buildModuleLink('reCaptcha','home.settings')#" );
+		menuService.addSubMenu(topMenu=menuService.MODULES,name="cbReCaptcha",label="reCaptcha",href="#menuService.buildModuleLink('cbReCaptcha','home.settings')#" );
 	}
 
 	/**
@@ -93,7 +93,7 @@ component hint="My Module Configuration"{
 		// Let's remove ourselves to the main menu in the Modules section
 		var menuService = controller.getWireBox().getInstance( "AdminMenuService@cb" );
 		// Remove Menu Contribution
-		menuService.removeSubMenu(topMenu=menuService.MODULES,name="reCaptcha" );
+		menuService.removeSubMenu(topMenu=menuService.MODULES,name="cbReCaptcha" );
 	}
 
 	/**
