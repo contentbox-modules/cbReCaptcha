@@ -27,6 +27,7 @@ component {
 		var httpService = new http(); 
 	    httpService.setMethod("post"); 
 	    httpService.setUrl(config.apiUrl);
+	    httpService.setTimeOut(10);
 	    
 	    httpService.addParam(type="header", name="Content-Type", value="application/x-www-form-urlencoded");
 
