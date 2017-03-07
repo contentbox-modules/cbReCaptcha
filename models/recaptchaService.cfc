@@ -50,7 +50,7 @@ component {
 		var allSettings=deserializeJson(settings);
 		
 		if(structKeyExists(allSettings,'publicKey'))
-			return allSettings.privateKey;
+			return allSettings.publicKey;
 			
 		return 'Public Key Not Set';
 
