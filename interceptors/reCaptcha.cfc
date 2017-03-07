@@ -22,7 +22,7 @@ component extends="coldbox.system.Interceptor"{
 	* this needs to be added to comment form
 	*/
 	function cbui_postCommentForm(event,interceptData){
-		appendToBuffer( '<div class="g-recaptcha" data-sitekey="#recaptchaService.getPublicKey#"></div>' );
+		appendToBuffer( '<div class="g-recaptcha" data-sitekey="#recaptchaService.getPublicKey()#"></div>' );
 	}
 
 
