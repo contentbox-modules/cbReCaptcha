@@ -14,10 +14,12 @@ Implements Google reCaptcha for Contentbox 3.x
 
 ## Version
 1.1 Few bug fixes thanks to Mark Skelton 
+
 1.0 Initial commit
 
 ## Written by
 www.akitogo.com
+
 http://www.akitogo.com/blog/implementing-recaptcha-in-contentbox-cms-3x
 
 ## Disclaimer
