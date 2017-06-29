@@ -45,7 +45,7 @@ component {
 
 
 	string function getPublicKey() {
-		var args 	= { name="reCaptcha" };
+		var args 	= { name="cbReCaptcha" };
 		var settings = settingService.findWhere( criteria=args ).getValue();
 		
 		var allSettings=deserializeJson(settings);
@@ -58,7 +58,7 @@ component {
 	}
 		
 	string function getSecretKey() {
-		var args 	= { name="reCaptcha" };
+		var args 	= { name="cbReCaptcha" };
 		var settings = settingService.findWhere( criteria=args ).getValue();
 		
 		var allSettings=deserializeJson(settings);
