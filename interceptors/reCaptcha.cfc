@@ -11,18 +11,17 @@ component extends="coldbox.system.Interceptor"{
 	}
 
 	/**
-	* Add Js to Head section
-	*/
-	function cbui_beforeHeadEnd(event,interceptData){
-		appendToBuffer( "<script src='https://www.google.com/recaptcha/api.js'></script>" );
-	}
-
-		
-	/**
 	* this needs to be added to comment form
 	*/
 	function cbui_postCommentForm(event,interceptData){
-		appendToBuffer( '<div class="g-recaptcha" data-sitekey="#recaptchaService.getPublicKey()#"></div>' );
+		var prc = event.getCollection( private = true );
+
+		if( !prc.oCurrentAuthor.isLoggedIn() ){
+			interceptData.commentForm &= "<script src='https://www.google.com/recaptcha/api.js'></script>
+				<div class=""form-group"">
+				<div class=""g-recaptcha"" data-sitekey=""#recaptchaService.getPublicKey()#""></div>
+				</div>";
+		}
 	}
 
 
@@ -31,14 +30,9 @@ component extends="coldbox.system.Interceptor"{
 	*/
 	function cbui_preCommentPost(event,interceptData){
 		var rc	= event.getCollection();
-		var captchacheck = false;
-		if(structKeyExists(rc,'g-recaptcha-response'))
-			captchacheck=recaptchaService.isValid(response=rc['g-recaptcha-response']);
-		if(!captchacheck)
-			ArrayAppend( arguments.interceptData.commentErrors, "Invalid security code. Please try again." );
-	}	
-		
 
-	
-	
+		if(structKeyExists(rc,'g-recaptcha-response') and !recaptchaService.isValid(response=rc['g-recaptcha-response'])) {
+			arrayAppend( arguments.interceptData.commentErrors, "Invalid security code. Please try again." );
+		}
+	}
 }

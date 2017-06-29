@@ -9,11 +9,11 @@ component{
 	property name="cb" 				inject="cbHelper@cb";
 
 	function settings( event, rc, prc ){
-		prc.xehSave = cb.buildModuleLink( "reCaptcha", "home.saveSettings" );
+		prc.xehSave = cb.buildModuleLink( "cbReCaptcha", "home.saveSettings" );
 
 		event.paramValue( "privatekey", "" );
 		event.paramValue( "publickey", "" );
-		var args 	= { name="reCaptcha" };
+		var args 	= { name="cbReCaptcha" };
 		var settings = settingService.findWhere( criteria=args );
 
 		if(!isNull(settings))
@@ -37,7 +37,7 @@ component{
 			}
 		}
 		// Save settings
-		var args 	= { name="reCaptcha" };
+		var args 	= { name="cbReCaptcha" };
 		var setting = settingService.findWhere( criteria=args );
 		if( isNull( setting ) ){
 			setting = settingService.new( properties=args );
@@ -49,7 +49,7 @@ component{
 		// Messagebox
 		getModel( "messagebox@cbMessagebox" ).info( "Settings Saved & Updated!" );
 		// Relocate via CB Helper
-		cb.setNextModuleEvent( "reCaptcha", "home.settings" );
+		cb.setNextModuleEvent( "cbReCaptcha", "home.settings" );
 	}
 
 }

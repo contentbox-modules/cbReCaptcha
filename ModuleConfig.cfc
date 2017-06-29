@@ -83,7 +83,18 @@ component hint="My Module Configuration"{
 	* Fired when the module is activated by ContentBox
 	*/
 	function onActivate(){
+		var settingService = controller.getWireBox().getInstance( "SettingService@cb" );
+		// store default settings
+		var findArgs = { name="cbReCaptcha" };
+		var setting = settingService.findWhere( criteria=findArgs );
+		if( isNull( setting ) ){
+			var args = { name="cbReCaptcha", value=serializeJSON( settings ) };
+			var cbReCaptchaSettings = settingService.new( properties=args );
+			settingService.save( cbReCaptchaSettings );
+		}
 
+		// Flush the settings cache so our new settings are reflected
+		settingService.flushSettingsCache();
 	}
 
 	/**
@@ -100,7 +111,12 @@ component hint="My Module Configuration"{
 	* Fired when the module is deactivated by ContentBox
 	*/
 	function onDeactivate(){
-
+		var settingService = controller.getWireBox().getInstance( "SettingService@cb" );
+		var args = { name="cbReCaptcha" };
+		var setting = settingService.findWhere( criteria=args );
+		if( !isNull( setting ) ){
+			settingService.delete( setting );
+		}
 	}
 
 }
