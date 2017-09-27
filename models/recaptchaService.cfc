@@ -1,8 +1,12 @@
-component {
+component singleton{
 
-	property name="config" inject="coldbox:setting:cbrecaptcha";
+	// DI
+	property name="config"			inject="coldbox:setting:cbrecaptcha";
 	property name="settingService" 	inject="settingService@cb";
 
+	/**
+	* Google Private Key
+	*/
 	property name="privateKey" 	default="";
 
 	/**
@@ -12,7 +16,6 @@ component {
 		return this;
 	}
 	
-	
 	boolean function isValid(string response, string remoteIP=getRemoteIp()) {
 		var result = httpSend(response,remoteIp);
 		
@@ -20,7 +23,6 @@ component {
 
 		return check.success;
 	}
-
 
 	struct function httpSend(required string response, string remoteIP) {
 
@@ -38,12 +40,23 @@ component {
 		return httpService.send().getPrefix();
 	}
 
-	string function getRemoteIp() {
-		return cgi.REMOTE_ADDR;
+	/**
+	* Get Real IP, by looking at clustered, proxy headers and locally.
+	*/
+	function getRemoteIp(){
+		var headers = GetHttpRequestData().headers;
+
+		// Very balanced headers
+		if( structKeyExists( headers, 'x-cluster-client-ip' ) ){
+			return headers[ 'x-cluster-client-ip' ];
+		}
+		if( structKeyExists( headers, 'X-Forwarded-For' ) ){
+			return headers[ 'X-Forwarded-For' ];
+		}
+
+		return len( cgi.remote_addr ) ? cgi.remote_addr : '127.0.0.1';
 	}
 	
-
-
 	string function getPublicKey() {
 		var args 	= { name="cbReCaptcha" };
 		var settings = settingService.findWhere( criteria=args ).getValue();
