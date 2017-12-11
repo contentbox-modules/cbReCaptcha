@@ -14,12 +14,7 @@ component extends="coldbox.system.Interceptor"{
 	* this needs to be added to comment form
 	*/
 	function cbui_postCommentForm( event, interceptData, buffer, rc, prc ){
-		buffer.append(
-			"<script src='https://www.google.com/recaptcha/api.js'></script>
-			<div class=""form-group"">
-				<div class=""g-recaptcha"" data-sitekey=""#recaptchaService.getPublicKey()#""></div>
-			</div>"
-		);
+		buffer.append( reCaptchaService.renderForm() );
 	}
 
 
@@ -32,9 +27,9 @@ component extends="coldbox.system.Interceptor"{
 			return;
 		}
 		
-		param name="rc.g-recaptcha-response" default="";
+		event.paramValue( "g-recaptcha-response", "" );
 
-		if( !recaptchaService.isValid( response=rc['g-recaptcha-response'] ) ){
+		if( !recaptchaService.isValid( response=rc[ 'g-recaptcha-response' ] ) ){
 			arrayAppend( arguments.interceptData.commentErrors, "Invalid security code. Please try again." );
 		}
 	}
