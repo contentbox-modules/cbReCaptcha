@@ -49,9 +49,9 @@ component hint="My Module Configuration"{
 		// SES Routes
 		routes = [
 			// Module Entry Point
-			{pattern="/", handler="home",action="index"},
+			{ pattern="/", handler="home", action="index" },
 			// Convention Route
-			{pattern="/:handler/:action?"}
+			{ pattern="/:handler/:action?" }
 		];
 
 		// Custom Declared Points
@@ -64,9 +64,6 @@ component hint="My Module Configuration"{
 			{ class="#moduleMapping#.interceptors.reCaptcha" }
 		];
 
-		// Binder Mappings
-		// binder.map( "Alias" ).to( "#moduleMapping#.model.MyService" );
-
 	}
 
 	/**
@@ -76,7 +73,12 @@ component hint="My Module Configuration"{
 		// Let's add ourselves to the main menu in the Modules section
 		var menuService = controller.getWireBox().getInstance( "AdminMenuService@cb" );
 		// Add Menu Contribution
-		menuService.addSubMenu(topMenu=menuService.MODULES,name="cbReCaptcha",label="reCaptcha",href="#menuService.buildModuleLink('cbReCaptcha','home.settings')#" );
+		menuService.addSubMenu(
+			topMenu = menuService.MODULES,
+			name 	= "cbReCaptcha",
+			label 	= "reCaptcha",
+			href 	= "#menuService.buildModuleLink( 'cbReCaptcha', 'home.settings' )#" 
+		);
 	}
 
 	/**
@@ -84,17 +86,24 @@ component hint="My Module Configuration"{
 	*/
 	function onActivate(){
 		var settingService = controller.getWireBox().getInstance( "SettingService@cb" );
+		
 		// store default settings
-		var findArgs = { name="cbReCaptcha" };
-		var setting = settingService.findWhere( criteria=findArgs );
-		if( isNull( setting ) ){
-			var args = { name="cbReCaptcha", value=serializeJSON( settings ) };
-			var cbReCaptchaSettings = settingService.new( properties=args );
+		var oSetting = settingService.findWhere(
+			criteria = { name="cbReCaptcha" }
+		);
+		
+		if( isNull( oSetting ) ){
+			var cbReCaptchaSettings = settingService.new( properties={
+				name 	= "cbReCaptcha",
+				value 	= serializeJSON( settings )
+			} );
+			
 			settingService.save( cbReCaptchaSettings );
-		}
 
-		// Flush the settings cache so our new settings are reflected
-		settingService.flushSettingsCache();
+			// Flush the settings cache so our new settings are reflected
+			settingService.flushSettingsCache();
+		}
+		
 	}
 
 	/**
@@ -104,7 +113,7 @@ component hint="My Module Configuration"{
 		// Let's remove ourselves to the main menu in the Modules section
 		var menuService = controller.getWireBox().getInstance( "AdminMenuService@cb" );
 		// Remove Menu Contribution
-		menuService.removeSubMenu(topMenu=menuService.MODULES,name="cbReCaptcha" );
+		menuService.removeSubMenu( topMenu=menuService.MODULES, name="cbReCaptcha" );
 	}
 
 	/**
@@ -112,10 +121,9 @@ component hint="My Module Configuration"{
 	*/
 	function onDeactivate(){
 		var settingService = controller.getWireBox().getInstance( "SettingService@cb" );
-		var args = { name="cbReCaptcha" };
-		var setting = settingService.findWhere( criteria=args );
-		if( !isNull( setting ) ){
-			settingService.delete( setting );
+		var oSetting = settingService.findWhere( criteria={ name="cbReCaptcha"} );
+		if( !isNull( oSetting ) ){
+			settingService.delete( oSetting );
 		}
 	}
 
