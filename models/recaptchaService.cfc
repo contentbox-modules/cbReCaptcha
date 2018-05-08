@@ -4,7 +4,7 @@
 component singleton accessors="true"{
 
 	// DI
-	property name="config"			inject="coldbox:setting:cbrecaptcha";
+	property name="config"			inject="coldbox:modulesettings:cbRecaptcha";
 	property name="settingService" 	inject="settingService@cb";
 
 	/**
