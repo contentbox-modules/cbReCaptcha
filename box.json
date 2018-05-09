@@ -1,6 +1,6 @@
 {
     "name":"reCaptcha for Contentbox 3.x",
-    "version":"1.1.1",
+    "version":"minor",
     "author":"Akitogo",
     "location":"https://github.com/akitogo/cbReCaptcha/archive/master.zip",
     "directory":"",
@@ -37,33 +37,21 @@
         }
     ],
     "contributors":[
-        "Akitogo Team" 
-        ,"Mark Skelton"
+        "Akitogo Team",
+        "Mark Skelton"
     ],
-    "dependencies":{
-        
-    },
-    "devDependencies":{
-        
-    },
-    "installPaths":{
-        
-    },
-    "scripts":{
-        
-    },
-    "ignore":[
-        
-    ],
+    "dependencies":{},
+    "devDependencies":{},
+    "installPaths":{},
+    "scripts":{},
+    "ignore":[],
     "testbox":{
         "runner":[
             {
                 "default":""
             }
         ],
-        "labels":[
-            
-        ],
+        "labels":[],
         "reporter":"",
         "reporterResults":"",
         "bundles":[
@@ -73,13 +61,9 @@
             "mapping":"",
             "recurse":true
         },
-        "watchers":[
-            
-        ],
+        "watchers":[],
         "notify":{
-            "emails":[
-                
-            ],
+            "emails":[],
             "growl":"",
             "URL":""
         }
