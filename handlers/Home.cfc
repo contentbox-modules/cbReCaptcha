@@ -8,26 +8,40 @@ component{
 	property name="settingService" 	inject="settingService@cb";
 	property name="cb" 				inject="cbHelper@cb";
 
+	/**
+	 * Show the captcha settings
+	 *
+	 * @event 
+	 * @rc 
+	 * @prc 
+	 */
 	function settings( event, rc, prc ){
 		prc.xehSave = cb.buildModuleLink( "cbReCaptcha", "home.saveSettings" );
 
-		event.paramValue( "privatekey", "" );
-		event.paramValue( "publickey", "" );
-		var args 	= { name="cbReCaptcha" };
-		var settings = settingService.findWhere( criteria=args );
+		event.paramValue( "privatekey", "" )
+			.paramValue( "publickey", "" );
 
-		if(!isNull(settings))
-			var settings=deserializeJSON(settings.getValue());
+		var settings = settingService.findWhere( criteria={ name="cbReCaptcha" } );
+
+		if( !isNull( settings ) )
+			var settings = deserializeJSON( settings.getValue() );
 			for( var key in settings ){
-				event.setValue(key,settings[key] );
+				event.setValue( key, settings[ key ] );
 			}
 		// view
 		event.setView( "home/settings" );
 	}
 
+	/**
+	 * Save captcha settings
+	 *
+	 * @event 
+	 * @rc 
+	 * @prc 
+	 */
 	function saveSettings( event, rc, prc ){
 		// Get compressor settings
-		prc.settings = {publickey='',privatekey=''};
+		prc.settings = { publickey = '', privatekey = '' };
 
 		// iterate over settings
 		for( var key in prc.settings ){
@@ -47,7 +61,8 @@ component{
 		settingService.save( setting );
 
 		// Messagebox
-		getModel( "messagebox@cbMessagebox" ).info( "Settings Saved & Updated!" );
+		getInstance( "messagebox@cbMessagebox" ).info( "Settings Saved & Updated!" );
+		
 		// Relocate via CB Helper
 		cb.setNextModuleEvent( "cbReCaptcha", "home.settings" );
 	}
