@@ -13,6 +13,8 @@ Implements Google reCaptcha for Contentbox 3.x
 - caching for settings
 
 ## Version
+1.1.1 fix for Contentbox 3.7.1
+
 1.1 Few bug fixes thanks to Mark Skelton 
 
 1.0 Initial commit
