@@ -10,7 +10,7 @@ component hint="My Module Configuration"{
 	this.title 				= "cbReCaptcha";
 	this.author 			= "Aktigo Internet and Media Applications GmbH";
 	this.webURL 			= "http://www.akitogo.com";
-	this.description 		= "Implements Google reCaptcha for Contentbox 3.x";
+	this.description 		= "Implements Google reCaptcha for Contentbox 3.x and 4.x";
 	this.version			= "1.1.2";
 	// If true, looks for views in the parent first, if not found, then in the module. Else vice-versa
 	this.viewParentLookup 	= true;
