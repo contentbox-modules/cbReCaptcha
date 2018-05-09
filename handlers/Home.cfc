@@ -21,13 +21,14 @@ component{
 		event.paramValue( "privatekey", "" )
 			.paramValue( "publickey", "" );
 
-		var settings = settingService.findWhere( criteria={ name="cbReCaptcha" } );
+		var allsettings = settingService.findWhere( criteria={ name="cbReCaptcha" } );
 
-		if( !isNull( settings ) )
-			var settings = deserializeJSON( settings.getValue() );
-			for( var key in settings ){
-				event.setValue( key, settings[ key ] );
+		if( !isNull( allsettings ) ){
+			var allsettings = deserializeJSON( allsettings.getValue() );
+			for( var key in allsettings ){
+				event.setValue( key, allsettings[ key ] );
 			}
+		}
 		// view
 		event.setView( "home/settings" );
 	}

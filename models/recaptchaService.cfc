@@ -120,10 +120,12 @@ component singleton accessors="true"{
 	 * Get all recaptcha settings from ContentBox
 	 */
 	private function getAllSettings(){
-		var settings = settingService
-			.findWhere( criteria = { name="cbReCaptcha" } )
-			.getValue();
-		return deserializeJson( settings );
+		var settings = settingService.findWhere( criteria={ name="cbReCaptcha" } );		
+
+		if (!isNull(settings))
+			return deserializeJson( settings.getValue() );
+		
+		return {};
 	}
 
 }
