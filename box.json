@@ -1,71 +1,41 @@
 {
-    "name":"reCaptcha for Contentbox 3.x and 4.x",
-    "version":"1.1.2",
-    "author":"Akitogo",
-    "location":"https://github.com/akitogo/cbReCaptcha/archive/master.zip",
-    "directory":"",
-    "createPackageDirectory":true,
-    "packageDirectory":"",
-    "homepage":"https://github.com/akitogo/cbReCaptcha",
-    "documentation":"http://www.akitogo.com/blog/implementing-recaptcha-in-contentbox-cms-3x",
-    "repository":{
-        "type":"git",
-        "URL":"https://github.com/akitogo/cbReCaptcha.git"
-    },
-    "bugs":"",
-    "slug":"cbReCaptcha",
-    "shortDescription":"Implements Google reCaptcha for Contentbox 3.x",
-    "description":"",
-    "instructions":"",
-    "changelog":"",
-    "type":"contentbox-modules",
-    "keywords":"Captcha",
-    "private":false,
-    "engines":[
-        {
-            "type":"",
-            "version":""
-        }
-    ],
-    "defaultEngine":"",
-    "defaultPort":0,
-    "projectURL":"",
-    "license":[
-        {
-            "type":"Apache2",
-            "URL":"http://www.apache.org/licenses/LICENSE-2.0"
-        }
-    ],
-    "contributors":[
-        "Akitogo Team",
-        "Mark Skelton"
-    ],
-    "dependencies":{},
-    "devDependencies":{},
-    "installPaths":{},
-    "scripts":{},
-    "ignore":[],
-    "testbox":{
-        "runner":[
-            {
-                "default":""
-            }
-        ],
-        "labels":[],
-        "reporter":"",
-        "reporterResults":"",
-        "bundles":[
-            ""
-        ],
-        "directory":{
-            "mapping":"",
-            "recurse":true
-        },
-        "watchers":[],
-        "notify":{
-            "emails":[],
-            "growl":"",
-            "URL":""
-        }
-    }
+	"name": "reCaptcha for Contentbox 3.x and 4.x",
+	"version": "1.2.0",
+	"author": "Akitogo",
+	"location": "https://github.com/akitogo/cbReCaptcha/archive/master.zip",
+	"createPackageDirectory": true,
+	"homepage": "https://github.com/akitogo/cbReCaptcha",
+	"documentation": "http://www.akitogo.com/blog/implementing-recaptcha-in-contentbox-cms-3x",
+	"repository": {
+		"type": "git",
+		"URL": "https://github.com/akitogo/cbReCaptcha.git"
+	},
+	"bugs": "https://github.com/akitogo/issues",
+	"slug": "cbReCaptcha",
+	"shortDescription": "Implements Google reCaptcha for ContentBox 3+",
+	"type": "contentbox-modules",
+	"keywords": [ "Captcha" ],
+	"license": [{
+		"type": "Apache2",
+		"URL": "http://www.apache.org/licenses/LICENSE-2.0"
+	}],
+	"contributors": [
+		"Akitogo Team",
+		"Mark Skelton",
+		"Luis Majano"
+	],
+	"dependencies": {},
+	"devDependencies": {},
+	"installPaths": {},
+	"scripts": {
+		"format": "cfformat run handlers,interceptors,models,*.cfc --overwrite",
+		"format:watch": "cfformat watch handlers,interceptors,models,*.cfc ./.cfformat.json",
+		"format:check": "cfformat check handlers,interceptors,models,*.cfc"
+	},
+	"ignore": [
+		"**/.*",
+		"tests",
+		"apidocs",
+		"testbox"
+	]
 }

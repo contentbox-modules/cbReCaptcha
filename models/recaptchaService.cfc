@@ -1,34 +1,51 @@
 /**
  * This CFC allows you to connect to the reCaptcha service for rendering and validation
  */
-component singleton accessors="true"{
+component singleton accessors="true" {
 
 	// DI
-	property name="config"			inject="coldbox:modulesettings:cbRecaptcha";
-	property name="settingService" 	inject="settingService@cb";
+	property name="config"         inject="coldbox:modulesettings:cbRecaptcha";
+	property name="settingService" inject="settingService@cb";
+	property name="log"            inject="logbox:logger:{this}";
 
 	/**
-	* Google Private Key
-	*/
-	property name="privateKey" 	default="";
+	 * Google Private Key
+	 */
+	property name="privateKey" default="";
 
 	/**
- 	* Constructor
-	*/
+	 * Constructor
+	 */
 	recaptchaService function init(){
 		return this;
 	}
-	
+
 	/**
 	 * Validate the captcha
 	 *
 	 * @response The Response from the form
 	 * @remoteIP The remote IP
 	 */
-	boolean function isValid( string response, string remoteIP=getRemoteIp() ){
+	boolean function isValid(
+		string response,
+		string remoteIP = getRemoteIp()
+	){
 		var result = httpSend( response, remoteIp );
-		
-		var check = deserializeJSON( result.filecontent );
+
+		try {
+			var check = deserializeJSON( result.filecontent );
+		} catch ( any e ) {
+			variables.log.error(
+				"** recaptcha content not valid JSON: #result.filecontent#",
+				result
+			);
+
+			throw(
+				message: "** recaptcha content not valid JSON: #result.filecontent#",
+				type   : "InvalidJson",
+				details: "#result.errorDetail#"
+			)
+		}
 
 		return check.success;
 	}
@@ -39,92 +56,111 @@ component singleton accessors="true"{
 	 * @response The Response from the form
 	 * @remoteIP The remote IP
 	 */
-	struct function httpSend( required string response, string remoteIP ){
-
-		var httpService = new http( 
+	struct function httpSend(
+		required string response,
+		string remoteIP
+	){
+		var httpService = new http(
 			method  = "post",
-			url 	= config.APIURL,
+			url     = config.APIURL,
 			timeout = 10
-		); 
-	    
-	    httpService.addParam( type="header",    name="Content-Type", value="application/x-www-form-urlencoded");
-	    httpService.addParam( type="formfield", name="response", 	 value="#arguments.response#");
-	    httpService.addParam( type="formfield", name="remoteip",  	 value="#arguments.remoteIp#");
-	    httpService.addParam( type="formfield", name="secret",		 value="#getSecretKey()#");
-		    
+		);
+
+		httpService.addParam(
+			type  = "header",
+			name  = "Content-Type",
+			value = "application/x-www-form-urlencoded"
+		);
+		httpService.addParam(
+			type  = "formfield",
+			name  = "response",
+			value = "#arguments.response#"
+		);
+		httpService.addParam(
+			type  = "formfield",
+			name  = "remoteip",
+			value = "#arguments.remoteIp#"
+		);
+		httpService.addParam(
+			type  = "formfield",
+			name  = "secret",
+			value = "#getSecretKey()#"
+		);
+
 		return httpService.send().getPrefix();
 	}
 
 	/**
 	 * Get the public key from the ContentBox settings
 	 */
-	function getPublicKey() {
+	function getPublicKey(){
 		var allSettings = getAllSettings();
-		
-		if( structKeyExists( allSettings, 'publicKey' ) ){
+
+		if ( structKeyExists( allSettings, "publicKey" ) ) {
 			return allSettings.publicKey;
 		}
-			
-		return 'Public Key Not Set';
+
+		return "Public Key Not Set";
 	}
-		
+
 	/**
 	 * Get the secret key from the ContentBox settings
 	 */
-	function getSecretKey() {
+	function getSecretKey(){
 		var allSettings = getAllSettings();
-		
-		if( structKeyExists( allSettings, 'privateKey' ) ){
+
+		if ( structKeyExists( allSettings, "privateKey" ) ) {
 			return allSettings.privateKey;
 		}
 
-		return 'Private Key Not Set';
+		return "Private Key Not Set";
 	}
 
 	/**
 	 * Return the HTML for the reCaptcha form
 	 */
 	function renderForm(){
-		savecontent variable="local.outputForm"{
-			writeOutput( "
+		savecontent variable="local.outputForm" {
+			writeOutput(
+				"
 			<script src='https://www.google.com/recaptcha/api.js'></script>
 			<div class=""form-group"">
 				<div class=""g-recaptcha"" data-sitekey=""#getPublicKey()#""></div>
-			</div>	
-			" );
+			</div>
+			"
+			);
 		}
-		
+
 		return local.outputForm;
 	}
 
 	/*********************************** PRIVATE ***********************************/
-	
+
 	/**
-	* Get Real IP, by looking at clustered, proxy headers and locally.
-	*/
+	 * Get Real IP, by looking at clustered, proxy headers and locally.
+	 */
 	private function getRemoteIp(){
-		var headers = GetHttpRequestData().headers;
+		var headers = getHTTPRequestData().headers;
 
 		// Very balanced headers
-		if( structKeyExists( headers, 'x-cluster-client-ip' ) ){
-			return headers[ 'x-cluster-client-ip' ];
+		if ( structKeyExists( headers, "x-cluster-client-ip" ) ) {
+			return headers[ "x-cluster-client-ip" ];
 		}
-		if( structKeyExists( headers, 'X-Forwarded-For' ) ){
-			return headers[ 'X-Forwarded-For' ];
+		if ( structKeyExists( headers, "X-Forwarded-For" ) ) {
+			return headers[ "X-Forwarded-For" ];
 		}
 
-		return len( cgi.remote_addr ) ? cgi.remote_addr : '127.0.0.1';
+		return len( cgi.remote_addr ) ? cgi.remote_addr : "127.0.0.1";
 	}
 
 	/**
 	 * Get all recaptcha settings from ContentBox
 	 */
 	private function getAllSettings(){
-		var settings = settingService.findWhere( criteria={ name="cbReCaptcha" } );		
+		var settings = settingService.findWhere( criteria = { name : "cbReCaptcha" } );
 
-		if (!isNull(settings))
-			return deserializeJson( settings.getValue() );
-		
+		if ( !isNull( settings ) ) return deserializeJSON( settings.getValue() );
+
 		return {};
 	}
 
